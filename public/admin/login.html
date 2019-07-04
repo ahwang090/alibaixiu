@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Sign in &laquo; Admin</title>
+  <link rel="stylesheet" href="../assets/vendors/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <div class="login">
+    <div class="login-wrap">
+      <img class="avatar" src="../assets/img/default.png">
+      <!-- 有错误信息时展示 -->
+      <!-- <div class="alert alert-danger">
+        <strong>错误！</strong> 用户名或密码错误！
+      </div> -->
+      <div class="form-group">
+        <label for="email" class="sr-only">邮箱</label>
+        <input id="email" type="email" class="form-control" placeholder="邮箱" autofocus>
+      </div>
+      <div class="form-group">
+        <label for="password" class="sr-only">密码</label>
+        <input id="password" type="password" class="form-control" placeholder="密码">
+      </div>
+      <button class="btn btn-primary btn-block" id="loginBtn">登 录</button>
+    </div>
+  </div>
+  <script src="../assets/vendors/jquery/jquery.min.js"></script>
+  <script>
+      // 1.给登录按钮添加点击事件
+      // 注意：刚开始写代码时，有变量的时候，尽量写一行就查看一行
+      $('#loginBtn').on('click',function(){
+        var email = $('#email').val();
+        var password = $('#password').val();
+        // console.log(email,password);
+        if(email.trim() == ""){
+          alert ('请输入邮箱')
+          return;
+        }
+        if(password.trim() == ""){
+          alert('请输入密码')
+          return;
+        }
+        // ===ajax 查错====
+        // =====1.第一先看控制台=====
+        // =====2.看 network，看详细的信息=====
+        // =====3.运用二分法进行一步步排错====
+        $.ajax({
+          type:'post',//get或post
+          url:'/login',//请求的地址
+          data:{
+            email:email,
+            password:password
+
+          },//如果不需要传，则注释掉 请求的参数，a=1&b=2或{a:1,b:2}或者jq中的serialize方法，或者formData收集
+          dataType:'json',
+          success:function(result){//成功的回调函数
+            // 这三种写法是等价的
+            location.href = 'index.html';//验证成功后，跳转到后台首页
+            // location.href = './index.html';//验证成功后，跳转到后台首页
+            // location.href = '/admin/index.html';//验证成功后，跳转到后台首页
+          },
+          error:function(err){
+            alert('用户名或者密码错误');
+          }
+        })
+      })
+  </script>
+</body>
+</html>
