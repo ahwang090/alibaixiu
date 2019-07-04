@@ -1,3 +1,4 @@
+
 $('#userForm').on('submit',function(){
   // alert('123');
   // 获取表单数据并将内容格式转化为参数字符串
@@ -36,4 +37,33 @@ $('#avatar').on('change',function(){
         $('#hiddenImg').val(result[0].avatar)
       }
     })
+})
+
+// 用户列表的展示
+$.ajax({
+  type:'get',//get或post
+  url:'/users',//请求的地址
+  success:function(response){//成功的回调函数
+    console.log(response)
+    var html = template('useTpl', {data:response})
+    $('#tBox').html(html);
+  }
+})
+
+// 用户修改/编辑
+
+$('#tBox').on('click','.edit',function(){
+  // 获取被点击的用户id
+  var id = $(this).attr('data-id');
+  // 根据id 获取用户的详细信息
+  // console.log(id)
+  $.ajax({
+    type:'get',//get或post
+    url:'/users/' + id,//请求的地址
+    success:function(result){//成功的回调函数
+      var html = template('modifyTpl',result)
+      $('#faform').html(html)
+    }
+  })
+
 })
